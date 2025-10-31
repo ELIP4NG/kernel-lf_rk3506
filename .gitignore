@@ -29,6 +29,7 @@
 *.lds
 *.lex.c
 *.ll
+*.log
 *.lst
 *.lz4
 *.lzma
