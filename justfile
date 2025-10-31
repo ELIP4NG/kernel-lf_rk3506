@@ -59,7 +59,7 @@ mk_dtbs:
 	mkdir -p {{log_dir}}
 	make dtbs {{parallel_flag}} ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}} 2>&1 | tee {{log_file}}
 
-all: defcfg build mk_img mk_dtbs
+all: build mk_img mk_dtbs
 	@echo "Complete kernel build finished!"
 menuconfig:
 	make menuconfig ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}}
