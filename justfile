@@ -59,7 +59,26 @@ mk_dtbs:
 	mkdir -p {{log_dir}}
 	make dtbs {{parallel_flag}} ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}} 2>&1 | tee {{log_file}}
 
-all: build mk_img mk_dtbs
+show_size:
+	#!/usr/bin/env bash
+	echo "==== Kernel Image Size ===="
+	if [ -f arch/{{arch}}/boot/Image ]; then
+		size=$(ls -lh arch/{{arch}}/boot/Image | awk '{print $5}')
+		echo "Image (uncompressed): $size"
+	else
+		echo "Image not found"
+	fi
+	if [ -f arch/{{arch}}/boot/zImage ]; then
+		size=$(ls -lh arch/{{arch}}/boot/zImage | awk '{print $5}')
+		echo "zImage (compressed):   $size"
+	else
+		echo "zImage not found"
+	fi
+	echo "==========================="
+
+# NOTE: Do NOT include 'defcfg' in 'all' recipe to avoid overwriting manually modified .config
+# Use 'just defcfg' separately only when you need to reset to default configuration
+all: build mk_img mk_dtbs show_size
 	@echo "Complete kernel build finished!"
 menuconfig:
 	make menuconfig ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}}
