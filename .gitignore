@@ -99,6 +99,7 @@ modules.order
 #
 !.clang-format
 !.cocciconfig
+!.config
 !.get_maintainer.ignore
 !.gitattributes
 !.gitignore
