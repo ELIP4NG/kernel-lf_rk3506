@@ -1,12 +1,30 @@
 #!/usr/bin/env just --justfile
 
-# CONFIG
+# ==================== CONFIG ====================
+# Toolchain Configuration
 cc_path := "/home/gcc-arm/gcc/bin/"
-rkbin_path := "../rkbin"
-arch := "arm"
 cross_compile_prefix := "arm-linux-gnueabihf-"
+
+# Path Configuration
+rkbin_path := "../rkbin"
+
+# Architecture Configuration
+arch := "arm"
+
+# Build Configuration
 parallels := "24"
 defconfig := "rk3506_luckfox_defconfig"
+
+# Device Tree Configuration (for reference/testing)
+# For Luckfox Lyra Pi SD card version
+dtb_name := "rk3506b-luckfox-lyra-pi-sd.dtb"
+# Other available DTBs:
+# - rk3506b-luckfox-lyra-pi.dtb
+# - rk3506b-luckfox-lyra-pi-w.dtb
+# - rk3506b-luckfox-lyra-pi-w-sd.dtb
+# - rk3506b-luckfox-lyra-zero-w.dtb
+# - rk3506b-luckfox-lyra-zero-w-sd.dtb
+# - rk3506b-luckfox-lyra-ultra-w.dtb
 # ======
 
 jfdir := replace(justfile_directory(), "\\", "/")
@@ -58,6 +76,20 @@ mk_image:
 mk_dtbs:
 	mkdir -p {{log_dir}}
 	make dtbs {{parallel_flag}} ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}} 2>&1 | tee {{log_file}}
+
+mk_dtb dtb_file:
+	mkdir -p {{log_dir}}
+	make {{dtb_file}} {{parallel_flag}} ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}} 2>&1 | tee {{log_file}}
+
+check_dtb:
+	@echo "Checking if {{dtb_name}} was built..."
+	@if [ -f arch/{{arch}}/boot/dts/{{dtb_name}} ]; then \
+		ls -lh arch/{{arch}}/boot/dts/{{dtb_name}}; \
+		echo "✓ DTB found and ready"; \
+	else \
+		echo "✗ DTB not found. Run 'just mk_dtbs' first"; \
+		exit 1; \
+	fi
 
 show_size:
 	#!/usr/bin/env bash

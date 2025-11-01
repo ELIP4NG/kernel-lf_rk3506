@@ -1225,6 +1225,13 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3503g-evb1-v10.dtb \
 	rk3506b-evb1-v10.dtb \
 	rk3506b-test2-v10.dtb \
+	rk3506b-luckfox-lyra-pi.dtb \
+	rk3506b-luckfox-lyra-pi-sd.dtb \
+	rk3506b-luckfox-lyra-pi-w.dtb \
+	rk3506b-luckfox-lyra-pi-w-sd.dtb \
+	rk3506b-luckfox-lyra-zero-w.dtb \
+	rk3506b-luckfox-lyra-zero-w-sd.dtb \
+	rk3506b-luckfox-lyra-ultra-w.dtb \
 	rk3506g-demo-display-control.dtb \
 	rk3506g-evb1-v10.dtb \
 	rk3506g-evb1-v10-amp.dtb \
@@ -1237,6 +1244,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3506g-evb1-v10-sii9022-rgb2hdmi.dtb \
 	rk3506g-iotest-v10.dtb \
 	rk3506g-iotest-v10-pdm.dtb \
+	rk3506g-luckfox-lyra-sd.dtb \
 	rk3506g-test1-v10-audio.dtb
 dtb-$(CONFIG_ARCH_S3C24XX) += \
 	s3c2416-smdk2416.dtb
