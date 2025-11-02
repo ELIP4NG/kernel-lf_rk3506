@@ -59,6 +59,14 @@ build:
 	mkdir -p {{log_dir}}
 	make {{parallel_flag}} ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}} 2>&1 | tee {{log_file}}
 
+# Build from scratch: clean + defconfig + build
+# WARNING: This will reset .config to defaults!
+from-scratch:
+	mkdir -p {{log_dir}}
+	make mrproper
+	just defcfg
+	just build
+
 mk_kmod:
 	mkdir -p {{log_dir}}
 	mkdir -p {{kmod_out_path}}
@@ -109,9 +117,14 @@ show_size:
 	echo "==========================="
 
 # NOTE: Do NOT include 'defcfg' in 'all' recipe to avoid overwriting manually modified .config
+# The 'all' recipe is for DAILY USE - it preserves .config and does incremental builds
 # Use 'just defcfg' separately only when you need to reset to default configuration
+# Or use 'just from-scratch' at project root for complete clean rebuild
 all: build mk_img mk_dtbs show_size
 	@echo "Complete kernel build finished!"
+
+# Interactive configuration editor
+# WARNING: This modifies .config - use with caution!
 menuconfig:
 	make menuconfig ARCH={{arch}} CROSS_COMPILE={{cross_compile_prefix}}
 	
